@@ -1,16 +1,25 @@
 <template>
 
-    <el-container>
-        <el-container>
-            <el-header><menu-top></menu-top></el-header>
-            <el-main>
-                <router-view></router-view>
-            </el-main>
-            <el-footer style="height: 40px;">
 
+    <el-container style="height: 100vh;">
+        <el-header>
+            <menu-top></menu-top>
+        </el-header>
+        <el-main class="main-container">
+            <el-container>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+                <el-aside width="300px">
+                    <h1>右侧</h1>
+                </el-aside>
+            </el-container>
+            <el-footer>
+                I am footer.
             </el-footer>
-        </el-container>
+        </el-main>
     </el-container>
+
 </template>
 
 <script>
@@ -20,19 +29,17 @@
         components: {
             MenuTop
         },
-        data () {
-            return {
-            }
+        data() {
+            return {}
         },
         methods: {
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
             }
         },
-        created () {
+        created() {
         },
-        watch: {
-        }
+        watch: {}
     }
 </script>
 
@@ -47,13 +54,14 @@
     .el-header {
         padding: 0;
     }
-    .el-main {
-        padding: 0;
+
+    .main-container {
+        padding: 0 10%;
         height: 100%;
     }
+
     .el-footer {
         width: 100%;
-        z-index: 1;
         background-color: #f7f7f7;
     }
 

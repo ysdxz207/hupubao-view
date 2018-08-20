@@ -1,6 +1,6 @@
 {
-  "name": "hupubao-manager",
-  "description": "hupubao manager",
+  "name": "hupubao-view",
+  "description": "hupubao view",
   "author": "ysdxz207@qq.com",
   "private": true,
   "scripts": {
