@@ -10,7 +10,7 @@
                 <el-main>
                     <router-view></router-view>
                 </el-main>
-                <el-aside width="300px">
+                <el-aside width="20%">
                     <h1>右侧</h1>
                 </el-aside>
             </el-container>
