@@ -10,6 +10,7 @@ import Directives from '~/global/Directives'
 
 const Index = () => import('./components/Index.vue').then(m => m.default)
 const Home = () => import('./components/Home.vue').then(m => m.default)
+const Right = () => import('./components/widgets/Right.vue').then(m => m.default)
 const Pager = () => import('./components/widgets/Pager.vue').then(m => m.default)
 const EditBar = () => import('./components/widgets/EditBar.vue').then(m => m.default)
 const Login = () => import('./components/Login.vue').then(m => m.default)
@@ -45,7 +46,10 @@ const routes = [
         component: Index,
         children: [
             {
-                path: '', component: Home
+                path: '', components: {
+                    default: Home,
+                    right: Right
+                }
             }
         ]
     },

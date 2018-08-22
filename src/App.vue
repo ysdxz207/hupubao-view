@@ -41,27 +41,15 @@
 
     /*滚动条里面小方块*/
     ::-webkit-scrollbar-thumb {
-        border-radius: 4px;
+        border-radius: 8px;
         -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-        background: rgba(53, 255, 21, 0.51);
+        background: rgb(92, 101, 110);
+        /*background: rgb(255, 132, 115);*/
     }
 
     /*滚动条里面轨道*/
     ::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-        background: #EDEDED;
+        border-radius: 8px;
     }
 
-
-    .float-btn {
-        position: fixed;
-        top: 30vh;
-        right: 20vw;
-        opacity: 0.35;
-        z-index: 999;
-    }
-    .float-btn:hover {
-        opacity: 1;
-    }
 </style>

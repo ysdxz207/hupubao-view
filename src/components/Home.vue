@@ -67,7 +67,6 @@
     }
 
     .home-main{
-        padding-top: 20px;
         padding-bottom: 20px;
     }
     .box-card {
@@ -76,5 +75,8 @@
     }
 
 
+    .box-card /deep/ .el-card__header {
+        padding: 0 10px;
+    }
 
 </style>

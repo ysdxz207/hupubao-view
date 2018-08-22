@@ -7,11 +7,11 @@
         </el-header>
         <el-main class="main-container">
             <el-container>
-                <el-main>
+                <el-main class="main">
                     <router-view></router-view>
                 </el-main>
                 <el-aside width="20%">
-                    <h1>右侧</h1>
+                    <router-view name="right"></router-view>
                 </el-aside>
             </el-container>
             <el-footer>
@@ -56,8 +56,13 @@
     }
 
     .main-container {
-        padding: 0 10%;
+        margin-top: 4px;
+        padding: 40px 8%;
         height: 100%;
+    }
+
+    .main {
+        padding-top: 0;
     }
 
     .el-footer {

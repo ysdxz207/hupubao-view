@@ -12,11 +12,11 @@ blog.getArticleTags = function(params) {
     })
 }
 
-blog.getArticleCategories = function(params) {
+blog.getArticleCategories = function() {
     return request({
         data: {
             service: Global.Blog.category.service,
-            bizContent: params
+            bizContent: {}
         }
     })
 }
