@@ -15,7 +15,8 @@
                 </el-aside>
             </el-container>
             <el-footer>
-                &copy;&nbsp;ysdxz207&nbsp;2018
+                &copy;&nbsp;ysdxz207&nbsp;2018&nbsp;
+                <a href="https://github.com/ysdxz207/hupubao-view" target="_blank">Version&nbsp;2.0</a>
             </el-footer>
         </el-main>
     </el-container>

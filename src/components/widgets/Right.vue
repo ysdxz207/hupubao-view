@@ -37,7 +37,7 @@
         },
         methods: {
             showCategoryArticles(row, event, column) {
-                console.log(row)
+                this.$router.push({name: 'home', query: {category: row.name}})
             }
         },
         created() {

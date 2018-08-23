@@ -4,7 +4,8 @@
                  v-for="article in page.list"
                  :key="article.id">
             <div slot="header">
-                <el-button type="text" @click="showArticle(article.id)">{{article.title}}</el-button>
+                <el-button type="text" size="small" @click="showArticle(article.id)">{{article.title}}</el-button>
+                <div class="article-create-time">{{article.createTime}}</div>
             </div>
             <div>
                 {{article.context.substring(0, 200)}}
@@ -30,8 +31,8 @@
         components: {},
         data() {
             return {
-                page: {},
-                search: {}
+                page: {
+                }
             }
         },
         created() {
@@ -40,7 +41,14 @@
         mounted() {
             this.loadArticleList()
         },
-        watch: {},
+        watch: {
+            '$route' () {
+                this.page.pageNum = 1
+                this.page.category = this.$route.query.category
+                this.loadArticleList()
+            }
+
+        },
         methods: {
             loadArticleList() {
                 let _this = this
@@ -88,6 +96,11 @@
 
     .box-card /deep/ .el-card__header {
         padding: 0 10px;
+    }
+
+    .article-create-time {
+        font-size: 12px;
+        color: #545c64;
     }
 
 </style>

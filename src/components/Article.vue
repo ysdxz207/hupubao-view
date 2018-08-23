@@ -37,6 +37,11 @@
             this.loadArticle()
             萌评.运转()
         },
+        created () {
+        },
+        watch: {
+
+        },
         methods: {
             loadArticle() {
                 let _this = this
@@ -49,10 +54,6 @@
                     })
             }
         },
-        created () {
-        },
-        watch: {
-        }
     }
 </script>
 
