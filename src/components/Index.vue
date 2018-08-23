@@ -15,7 +15,7 @@
                 </el-aside>
             </el-container>
             <el-footer>
-                I am footer.
+                &copy;&nbsp;ysdxz207&nbsp;2018
             </el-footer>
         </el-main>
     </el-container>
@@ -57,7 +57,7 @@
 
     .main-container {
         margin-top: 4px;
-        padding: 40px 8%;
+        padding: 40px 8% 0 8%;
         height: 100%;
     }
 
@@ -67,7 +67,9 @@
 
     .el-footer {
         width: 100%;
-        background-color: #f7f7f7;
+        color: #545c64;
+        font-size: 14px;
+        margin-top: 80px;
     }
 
 </style>

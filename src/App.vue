@@ -13,6 +13,8 @@
             }
         },
         created() {
+        },
+        mounted() {
         }
     }
 </script>

@@ -4,7 +4,7 @@
                  v-for="article in page.list"
                  :key="article.id">
             <div slot="header">
-                <el-button type="text" >{{article.title}}</el-button>
+                <el-button type="text" @click="showArticle(article.id)">{{article.title}}</el-button>
             </div>
             <div>
                 {{article.context.substring(0, 200)}}
@@ -14,11 +14,11 @@
                 background
                 @size-change="pageSizeChangeHandler"
                 @current-change="pageNumChangeHandler"
-                :current-page="search.pageNum"
+                :current-page="page.pageNum"
                 :page-sizes="[10, 20, 40, 100]"
-                :page-size="search.pageSize"
+                :page-size="page.pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="search.total">
+                :total="page.total">
         </el-pagination>
     </div>
 </template>
@@ -44,19 +44,30 @@
         methods: {
             loadArticleList() {
                 let _this = this
-                Blog.getArticles(_this.search)
+                const loading = this.$loading({
+                    lock: true,
+                    text: '加载中...',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(255, 255, 255, 0.2)'
+                });
+                Blog.getArticles(_this.page)
                     .then(function (response) {
                         _this.page = response
-                        console.log(_this.page)
-                        _this.bus.$emit('pager', _this.pageInfo)
+                        loading.close()
                     })
             },
-            pageNumChangeHandler() {
-
+            pageNumChangeHandler(pageNum) {
+                this.page.pageNum = pageNum
+                this.loadArticleList()
             },
-            pageSizeChangeHandler() {
-
+            pageSizeChangeHandler(pageSize) {
+                this.page.pageSize = pageSize
+                this.loadArticleList()
+            },
+            showArticle(id) {
+                this.$router.push({name: 'article', query: {id: id}})
             }
+
         }
     }
 </script>
