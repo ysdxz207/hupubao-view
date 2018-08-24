@@ -106,5 +106,12 @@ module.exports = (options = {}) => ({
             index: url.parse(options.dev ? '/assets/' : publicPath).pathname
         }
     },
-    devtool: options.dev ? '#eval-source-map' : '#source-map'
+    devtool: options.dev ? '#eval-source-map' : '#source-map',
+    externals: {
+        'vue': 'Vue',
+        'element-ui': 'ELEMENT',
+        'vue-router': 'VueRouter',
+        'axios': 'axios'
+
+    }
 })
