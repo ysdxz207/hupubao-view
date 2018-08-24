@@ -5,7 +5,7 @@ import {Message} from 'element-ui'
 // create an axios instance
 const service = axios.create({
     // baseURL: process.env.BASE_API, // api的base_url
-    baseURL: 'https://api.hupubao.win', // api的base_url
+    baseURL: 'http://127.0.0.1:2015', // api的base_url
     timeout: 15000, // request timeout
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',

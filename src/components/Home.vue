@@ -5,7 +5,11 @@
                  :key="article.id">
             <div slot="header">
                 <el-button type="text" size="small" @click="showArticle(article.id)">{{article.title}}</el-button>
-                <div class="article-create-time">{{article.createTime}}</div>
+                <div class="article-">
+                    <span v-if="article.category">分类：{{article.category}}</span>
+
+                    |<span>时间：{{article.createTime}}</span>
+                </div>
             </div>
             <div>
                 {{article.context.substring(0, 200)}}
