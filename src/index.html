@@ -2,15 +2,34 @@
 <html lang="zh">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-  <title>飞鸿</title>
-  <!-- markdown的渲染样式 -->
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>飞鸿</title>
+    <!-- markdown的渲染样式 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
 <body>
-  <div id="app-box"></div>
+<div id="app-box"></div>
 </body>
+
+
+<script language="javascript">
+    //平台、设备和操作系统
+    var system = {
+        win: false,
+        mac: false,
+        xll: false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf("Win") == 0;
+    system.mac = p.indexOf("Mac") == 0;
+    system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+    if (system.win || system.mac || system.xll) {
+    } else {
+        window.location.href = "//m.hupubao.win";
+    }
+</script>
 
 </html>
