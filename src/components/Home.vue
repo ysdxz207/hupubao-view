@@ -62,7 +62,9 @@
                     .then(function (response) {
                         _this.page = response
                         loading.close()
-                    })
+                    }).catch(e => {
+                        loading.close()
+                })
             },
             pageNumChangeHandler(pageNum) {
                 this.page.pageNum = pageNum
