@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div>
-                {{article.context.substring(0, 200)}}
+                {{article.intro}}
             </div>
         </el-card>
         <el-pagination
