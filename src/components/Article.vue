@@ -1,11 +1,19 @@
 <template>
-    <div>
+    <div class="article-container">
         <h3>{{article.title}}</h3>
-        <h5></h5>
-        <h6></h6>
+        <h5>分类：
+            <router-link :to="{ name: 'home', query: { category: article.category }}">{{article.category}}</router-link>
+        </h5>
+        <h6>
+            <el-tag v-for="(tag, index) in article.tagList"
+                    :key="index"
+                    size="small">
+                {{tag.name}}
+            </el-tag>
+        </h6>
         <el-card
-                 shadow="never"
-                 class="article-context">
+                shadow="never"
+                class="article-context">
             <vue-markdown :source="article.context"/>
         </el-card>
 
@@ -14,7 +22,6 @@
 
     </div>
 </template>
-
 
 
 <script>
@@ -27,7 +34,7 @@
         components: {
             VueMarkdown
         },
-        data () {
+        data() {
             return {
                 article: {
                     id: this.$route.query.id
@@ -38,11 +45,9 @@
             this.loadArticle()
             萌评.运转()
         },
-        created () {
+        created() {
         },
-        watch: {
-
-        },
+        watch: {},
         methods: {
             loadArticle() {
                 let _this = this
@@ -60,11 +65,26 @@
 
 <style lang="less" scoped>
     @import "//comment.moe/dest/static/css/plus.css";
+
+    .article-container {
+        text-align: left;
+    }
+
+    .article-container a {
+        color: #545454;
+        text-decoration: none;
+    }
+
+    .article-container .el-tag {
+        margin-right: 8px;
+    }
+
     .article-context {
         text-align: left;
         padding: 10px;
     }
-    .article-context /deep/ a{
+
+    .article-context /deep/ a {
         color: #F56C6C;
         text-decoration: none;
     }

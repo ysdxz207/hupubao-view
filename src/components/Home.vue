@@ -4,11 +4,19 @@
                  v-for="article in page.list"
                  :key="article.id">
             <div slot="header">
-                <el-button type="text" size="small" @click="showArticle(article.id)">{{article.title}}</el-button>
+                <el-button type="text" size="small"
+                           @click="showArticle(article.id)">
+                    {{article.title}}
+                </el-button>
                 <div class="article-">
-                    <span v-if="article.category">分类：{{article.category}}</span>
-
-                    |<span>时间：{{article.createTime}}</span>
+                    <span>时间：{{article.createTime}}</span>
+                    <span v-if="article.category">
+                        <span class="split">|</span>
+                        分类：
+                        <router-link :to="{ name: 'home', query: { category: article.category }}">
+                        {{article.category}}
+                        </router-link>
+                    </span>
                 </div>
             </div>
             <div>
@@ -99,6 +107,10 @@
         text-align: left;
     }
 
+    .home-main a {
+        color: #545454;
+        text-decoration: none;
+    }
 
     .box-card /deep/ .el-card__header {
         padding: 0 10px;
@@ -107,6 +119,12 @@
     .article-create-time {
         font-size: 12px;
         color: #545c64;
+    }
+
+    .split {
+        color: #909090;
+        margin-left: 4px;
+        margin-right: 4px;
     }
 
 </style>

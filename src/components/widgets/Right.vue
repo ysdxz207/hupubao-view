@@ -1,17 +1,18 @@
 <template>
     <div>
-        <el-table
-                class="category"
-                :data="categoryList"
-                border
-                style="width: 100%"
-                @row-click="showCategoryArticles">
-            <el-table-column
-                    align="left"
-                    prop="name"
-                    label="分类">
-            </el-table-column>
-        </el-table>
+
+        <div class="widget">
+            <div class="header">
+                分类
+            </div>
+            <div class="item"
+                 v-for="(category, index) in categoryList"
+                 :key="index"
+                 @click="showCategoryArticles(category)">
+                {{category.name}}
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -25,8 +26,7 @@
                 categoryList: []
             }
         },
-        computed: {
-        },
+        computed: {},
         mounted() {
             let _this = this
 
@@ -36,8 +36,8 @@
                 })
         },
         methods: {
-            showCategoryArticles(row, event, column) {
-                this.$router.push({name: 'home', query: {category: row.name}})
+            showCategoryArticles(category) {
+                this.$router.push({name: 'home', query: {category: category.name}})
             }
         },
         created() {
@@ -48,7 +48,38 @@
 
 <style lang="less" scoped>
 
-    .category /deep/ .cell{
+    .widget {
+        border: 1px solid #ebeef5;
+        background-color: #FFFFFF;
+        border-radius: 6px;
+        text-align: left;
+    }
+
+    .widget .header {
+        padding: 10px;
+    }
+
+    .item {
         cursor: pointer;
+        border-top: 1px solid #ebeef5;
+        padding: 8px 0px 8px 12px;
+    }
+
+    .item:hover {
+        background-color: #f5f7fa;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
     }
 </style>
