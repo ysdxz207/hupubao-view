@@ -53,7 +53,7 @@
             this.loadArticleList()
             this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
-
+                    console.log(e.target.scrollTop)
                 }, true)
             })
         },
