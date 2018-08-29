@@ -4,10 +4,9 @@
                  v-for="article in page.list"
                  :key="article.id">
             <div slot="header">
-                <el-button type="text" size="small"
-                           @click="showArticle(article.id)">
+                <router-link :to="{path: 'article',query:{id:article.id}}">
                     {{article.title}}
-                </el-button>
+                </router-link>
                 <div class="article-">
                     <span>时间：{{article.createTime}}</span>
                     <span v-if="article.category">
@@ -52,6 +51,11 @@
         },
         mounted() {
             this.loadArticleList()
+            this.$nextTick(function () {
+                window.addEventListener('scroll', (e) => {
+
+                }, true)
+            })
         },
         watch: {
             '$route' () {
@@ -73,6 +77,7 @@
                 Blog.getArticles(_this.page)
                     .then(function (response) {
                         _this.page = response
+                        _this.toTop()
                         loading.close()
                     }).catch(e => {
                         loading.close()
@@ -86,8 +91,16 @@
                 this.page.pageSize = pageSize
                 this.loadArticleList()
             },
-            showArticle(id) {
-                this.$router.push({name: 'article', query: {id: id}})
+            toTop(){
+                console.log(document.pageYOffset || document.body.scrollTop||document.documentElement.scrollTop || 0)
+                let back = setInterval(() => {
+                    if(document.pageYOffset || document.body.scrollTop||document.documentElement.scrollTop || 0){
+                        document.body.scrollTop-=100;
+                        document.documentElement.scrollTop-=100;
+                    }else {
+                        clearInterval(back)
+                    }
+                })
             }
 
         }
@@ -95,6 +108,7 @@
 </script>
 
 <style lang="less" scoped>
+
     .el-pagination {
         margin-top: 20px;
     }
@@ -108,8 +122,9 @@
     }
 
     .home-main a {
-        color: #545454;
+        color: #909399;
         text-decoration: none;
+        line-height: 30px;
     }
 
     .box-card /deep/ .el-card__header {
