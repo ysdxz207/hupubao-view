@@ -40,4 +40,17 @@ blog.getArticleDetail = function (id) {
     })
 }
 
+blog.toTop = function (container){
+    if (!container) {
+        return
+    }
+    let back = setInterval(() => {
+        if(container.scrollTop || 0){
+            container.scrollTop-=20;
+        }else {
+            clearInterval(back)
+        }
+    })
+}
+
 export default blog;

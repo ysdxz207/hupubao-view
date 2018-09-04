@@ -38,12 +38,21 @@
             return {
                 article: {
                     id: this.$route.query.id
-                }
+                },
+                container: undefined
             }
         },
         mounted() {
+            let _this = this
             this.loadArticle()
             萌评.运转()
+            this.$nextTick(function () {
+                window.addEventListener('scroll', (e) => {
+                    if (!_this.container) {
+                        _this.container = e.target
+                    }
+                }, true)
+            })
         },
         created() {
         },
@@ -55,8 +64,8 @@
                     .then(response => {
                         if (response.data) {
                             _this.article = response.data
+                            Blog.toTop(_this.container)
                         }
-                        console.log(_this.article)
                     })
             }
         },

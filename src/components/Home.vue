@@ -1,5 +1,8 @@
 <template>
     <div class="home-main">
+        <transition-group name="list"
+                          enter-active-class="animated bounceInDown"
+                          leave-active-class="animated bounceOut">
         <el-card class="box-card"
                  v-for="article in page.list"
                  :key="article.id">
@@ -22,6 +25,7 @@
                 {{article.intro}}
             </div>
         </el-card>
+        </transition-group>
         <el-pagination
                 background
                 @size-change="pageSizeChangeHandler"
@@ -43,17 +47,21 @@
         data() {
             return {
                 page: {
-                }
+                },
+                container: undefined
             }
         },
         created() {
             let _this = this
         },
         mounted() {
+            let _this = this
             this.loadArticleList()
             this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
-                    console.log(e.target.scrollTop)
+                    if (!_this.container) {
+                        _this.container = e.target
+                    }
                 }, true)
             })
         },
@@ -68,19 +76,19 @@
         methods: {
             loadArticleList() {
                 let _this = this
-                const loading = this.$loading({
-                    lock: true,
-                    text: '加载中...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.2)'
-                });
+                // const loading = this.$loading({
+                //     lock: true,
+                //     text: '加载中...',
+                //     spinner: 'el-icon-loading',
+                //     background: 'rgba(255, 255, 255, 0.2)'
+                // });
                 Blog.getArticles(_this.page)
                     .then(function (response) {
                         _this.page = response
-                        _this.toTop()
-                        loading.close()
+                        // Blog.toTop(_this.container)
+                        // loading.close()
                     }).catch(e => {
-                        loading.close()
+                        // loading.close()
                 })
             },
             pageNumChangeHandler(pageNum) {
@@ -90,17 +98,6 @@
             pageSizeChangeHandler(pageSize) {
                 this.page.pageSize = pageSize
                 this.loadArticleList()
-            },
-            toTop(){
-                console.log(document.pageYOffset || document.body.scrollTop||document.documentElement.scrollTop || 0)
-                let back = setInterval(() => {
-                    if(document.pageYOffset || document.body.scrollTop||document.documentElement.scrollTop || 0){
-                        document.body.scrollTop-=100;
-                        document.documentElement.scrollTop-=100;
-                    }else {
-                        clearInterval(back)
-                    }
-                })
             }
 
         }
@@ -108,6 +105,9 @@
 </script>
 
 <style lang="less" scoped>
+
+    @interval:300;
+    @n:0;
 
     .el-pagination {
         margin-top: 20px;
@@ -140,6 +140,15 @@
         color: #909090;
         margin-left: 4px;
         margin-right: 4px;
+    }
+
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to
+        /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transition: opacity ((@n + 1) * @interval)ms ease;
     }
 
 </style>
