@@ -1,8 +1,6 @@
 <template>
     <div class="home-main">
-        <transition-group name="list"
-                          enter-active-class="animated bounceInDown"
-                          leave-active-class="animated bounceOut">
+        <transition-group name="list">
         <el-card class="box-card"
                  v-for="article in page.list"
                  :key="article.id">
@@ -106,7 +104,7 @@
 
 <style lang="less" scoped>
 
-    @interval:300;
+    @interval:3000ms;
     @n:0;
 
     .el-pagination {
@@ -143,12 +141,11 @@
     }
 
     .list-enter-active, .list-leave-active {
-        transition: all 1s;
+        transition: all (@n * @interval);
     }
-    .list-enter, .list-leave-to
-        /* .list-leave-active for below version 2.1.8 */ {
+    .list-enter, .list-leave-to {
         opacity: 0;
-        transition: opacity ((@n + 1) * @interval)ms ease;
+        transition: opacity (@n * @interval) ease;
     }
 
 </style>
