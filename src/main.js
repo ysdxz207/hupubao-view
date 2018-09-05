@@ -12,6 +12,8 @@ const Article = () => import('./components/Article.vue').then(m => m.default)
 Vue.use(VueRouter)
 
 Vue.prototype.Constants = Global
+Vue.prototype.bus = new Vue()
+
 
 const routes = [
     {
@@ -41,8 +43,12 @@ const router = new VueRouter({
 })
 
 
-router.afterEach(() => {
+router.beforeEach((to, from, next) => {
+    // my code
+    next()
+})
 
+router.afterEach(() => {
 })
 
 
@@ -67,4 +73,3 @@ window.addEventListener('noAuthEvent', function (e) {
 })
 
 
-Vue.prototype.bus = new Vue()

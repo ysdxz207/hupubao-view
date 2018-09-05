@@ -13,8 +13,7 @@
         </h6>
         <el-card
                 shadow="never"
-                class="article-context">
-            <vue-markdown :source="article.context"/>
+                class="article-context" v-html="compiledContext">
         </el-card>
 
         <!-- 在需要展示评论框处插入 -->
@@ -25,14 +24,12 @@
 
 
 <script>
-
-    import VueMarkdown from 'vue-markdown'
+    import marked from 'marked'
     import 萌评 from '~/static/comment'
     import Blog from '~/api/blog'
 
     export default {
         components: {
-            VueMarkdown
         },
         data() {
             return {
@@ -40,6 +37,12 @@
                     id: this.$route.query.id
                 },
                 container: undefined
+            }
+        },
+        computed: {
+            compiledContext () {
+                if (this.article.context)
+                return marked(this.article.context, { sanitize: false })
             }
         },
         mounted() {

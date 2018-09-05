@@ -1,6 +1,8 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
+import Loading from '~/utils/loading'
 
+let num = 0
 
 // create an axios instance
 const service = axios.create({
@@ -21,11 +23,14 @@ service.interceptors.request.use(config => {
     // if (store.getters.token) {
     //   config.headers['X-Token'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     // }
+    num ++
+    Loading.show()
     return config
 }, error => {
     // Do something with request error
     console.log(error) // for debug
-    // Promise.reject(error)
+    Loading.hide()
+// Promise.reject(error)
     Message({
         showClose: true,
         message: error.message,
@@ -43,6 +48,7 @@ service.interceptors.response.use(
          */
         const res = response.data
         if (res.statusCode !== 200) {
+            Loading.hide()
             Message({
                 showClose: true,
                 message: res.message ? res.message : '服务器返回非成功状态',
@@ -51,9 +57,14 @@ service.interceptors.response.use(
             });
         }
 
+        num --
+        if (num <= 0) {
+            Loading.hide()
+        }
         return response.data
     },
     error => {
+        Loading.hide()
         Message({
             showClose: true,
             message: error.message,

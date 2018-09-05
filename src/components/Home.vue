@@ -1,6 +1,6 @@
 <template>
     <div class="home-main">
-        <transition-group name="list">
+        <transition-group enter-active-class="animated bounceInLeft">
         <el-card class="box-card"
                  v-for="article in page.list"
                  :key="article.id">
@@ -8,7 +8,7 @@
                 <router-link :to="{path: 'article',query:{id:article.id}}">
                     {{article.title}}
                 </router-link>
-                <div class="article-">
+                <div class="article-create-time">
                     <span>时间：{{article.createTime}}</span>
                     <span v-if="article.category">
                         <span class="split">|</span>
@@ -25,6 +25,7 @@
         </el-card>
         </transition-group>
         <el-pagination
+                v-if="page.list"
                 background
                 @size-change="pageSizeChangeHandler"
                 @current-change="pageNumChangeHandler"
@@ -74,19 +75,11 @@
         methods: {
             loadArticleList() {
                 let _this = this
-                // const loading = this.$loading({
-                //     lock: true,
-                //     text: '加载中...',
-                //     spinner: 'el-icon-loading',
-                //     background: 'rgba(255, 255, 255, 0.2)'
-                // });
                 Blog.getArticles(_this.page)
                     .then(function (response) {
                         _this.page = response
-                        // Blog.toTop(_this.container)
-                        // loading.close()
+                        Blog.toTop(_this.container)
                     }).catch(e => {
-                        // loading.close()
                 })
             },
             pageNumChangeHandler(pageNum) {
@@ -104,14 +97,12 @@
 
 <style lang="less" scoped>
 
-    @interval:3000ms;
-    @n:0;
-
     .el-pagination {
         margin-top: 20px;
     }
 
     .home-main{
+        height: 100%;
         padding-bottom: 20px;
     }
     .box-card {
@@ -138,14 +129,6 @@
         color: #909090;
         margin-left: 4px;
         margin-right: 4px;
-    }
-
-    .list-enter-active, .list-leave-active {
-        transition: all (@n * @interval);
-    }
-    .list-enter, .list-leave-to {
-        opacity: 0;
-        transition: opacity (@n * @interval) ease;
     }
 
 </style>

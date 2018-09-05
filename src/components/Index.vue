@@ -31,7 +31,8 @@
             MenuTop
         },
         data() {
-            return {}
+            return {
+            }
         },
         methods: {
             handleSelect(key, keyPath) {
@@ -39,6 +40,7 @@
             }
         },
         created() {
+            let _this = this
         },
         watch: {}
     }
@@ -46,7 +48,6 @@
 
 <style lang="less" scoped>
 
-    @import '../styles/transition.less';
 
     .menu-left:not(.el-menu--collapse) {
         width: 220px;
@@ -64,6 +65,7 @@
 
     .main {
         padding-top: 0;
+        min-height: 100vh;
     }
 
     .el-footer {
@@ -72,5 +74,6 @@
         font-size: 14px;
         margin-top: 80px;
     }
+
 
 </style>

@@ -5,12 +5,14 @@
             <div class="header">
                 分类
             </div>
+            <transition-group name="slide-fade">
             <div class="item"
                  v-for="(category, index) in categoryList"
                  :key="index"
                  @click="showCategoryArticles(category)">
                 {{category.name}}
             </div>
+            </transition-group>
         </div>
 
     </div>
@@ -48,6 +50,7 @@
 
 <style lang="less" scoped>
 
+
     .widget {
         border: 1px solid #ebeef5;
         background-color: #FFFFFF;
@@ -69,17 +72,5 @@
         background-color: #f5f7fa;
     }
 
-    .slide-fade-enter-active {
-        transition: all .3s ease;
-    }
 
-    .slide-fade-leave-active {
-        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-
-    .slide-fade-enter, .slide-fade-leave-to
-        /* .slide-fade-leave-active below version 2.1.8 */ {
-        transform: translateX(10px);
-        opacity: 0;
-    }
 </style>
