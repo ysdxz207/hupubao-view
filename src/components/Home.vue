@@ -55,6 +55,7 @@
         },
         mounted() {
             let _this = this
+            this.page.category = this.$route.query.category
             this.loadArticleList()
             this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
@@ -65,7 +66,7 @@
             })
         },
         watch: {
-            '$route' () {
+            '$route' (to, from) {
                 this.page.pageNum = 1
                 this.page.category = this.$route.query.category
                 this.loadArticleList()
