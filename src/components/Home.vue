@@ -52,10 +52,15 @@
         },
         created() {
             let _this = this
+            _this.bus.$on('search', function (keywords) {
+                _this.page.title = keywords
+                _this.loadArticleList()
+            })
         },
         mounted() {
             let _this = this
             this.page.category = this.$route.query.category
+            this.page.tagId = this.$route.query.tagId
             this.loadArticleList()
             this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
@@ -69,6 +74,7 @@
             '$route' (to, from) {
                 this.page.pageNum = 1
                 this.page.category = this.$route.query.category
+                this.page.tagId = this.$route.query.tagId
                 this.loadArticleList()
             }
 

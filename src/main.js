@@ -2,7 +2,6 @@ import App from './App.vue'
 import './assets/icon/iconfont.css'
 import Global from '~/global/Global'
 
-
 const Index = () => import('./components/Index.vue').then(m => m.default)
 const Home = () => import('./components/Home.vue').then(m => m.default)
 const Right = () => import('./components/widgets/Right.vue').then(m => m.default)
