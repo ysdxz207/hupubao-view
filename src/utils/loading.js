@@ -19,8 +19,10 @@ Obj.show = function () {
 
 Obj.hide = function () {
     if (loading) {
-        loading.close()
-        loading = undefined
+        setTimeout(function () {
+            loading.close()
+            loading = undefined
+        }, 300)
     }
 }
 
