@@ -1,25 +1,27 @@
 <template>
-    <div class="article-container">
-        <h3>{{article.title}}</h3>
-        <h5>分类：
-            <router-link :to="{ name: 'home', query: { category: article.category }}">{{article.category}}</router-link>
-        </h5>
-        <h6>
-            <el-tag v-for="(tag, index) in article.tagList"
-                    :key="index"
-                    size="small">
-                {{tag.name}}
-            </el-tag>
-        </h6>
-        <el-card
-                shadow="never"
-                class="article-context" v-html="compiledContext">
-        </el-card>
+    <transition enter-active-class="animated zoomInUp">
+        <div class="article-container">
+            <h3>{{article.title}}</h3>
+            <h5>分类：
+                <router-link :to="{ name: 'home', query: { category: article.category }}">{{article.category}}</router-link>
+            </h5>
+            <h6>
+                <el-tag v-for="(tag, index) in article.tagList"
+                        :key="index"
+                        size="small">
+                    {{tag.name}}
+                </el-tag>
+            </h6>
+            <el-card
+                    shadow="never"
+                    class="article-context" v-html="compiledContext">
+            </el-card>
 
-        <!-- 在需要展示评论框处插入 -->
-        <div class="cm-article" :data-key="article.id"></div>
+            <!-- 在需要展示评论框处插入 -->
+            <div class="cm-article" :data-key="article.id"></div>
 
-    </div>
+        </div>
+    </transition>
 </template>
 
 
@@ -77,7 +79,6 @@
 
 <style lang="less" scoped>
     @import "//comment.moe/dest/static/css/plus.css";
-
     .article-container {
         text-align: left;
     }
