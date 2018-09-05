@@ -11,9 +11,9 @@
             <el-menu-item index="home">首页</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">工具</template>
-                <el-menu-item index="2-1">桌面快速启动程序</el-menu-item>
-                <el-menu-item index="2-2">redis管理工具</el-menu-item>
-                <el-menu-item index="2-3">简单封装java公共模块</el-menu-item>
+                <el-menu-item index="https://github.com/ysdxz207/quickrun">桌面快速启动程序</el-menu-item>
+                <el-menu-item index="https://github.com/ysdxz207/medis">redis管理工具</el-menu-item>
+                <el-menu-item index="https://github.com/ysdxz207/hupubao-common">简单封装java公共模块</el-menu-item>
             </el-submenu>
             <span><i class="el-icon-github"></i></span>
         </el-menu>
@@ -41,7 +41,11 @@
         },
         methods: {
             handleSelect(key, keyPath) {
-                this.$router.push({name: key})
+                if (key === 'home') {
+                    this.$router.push({name: key})
+                } else {
+                    window.open(key)
+                }
             }
         },
         created() {

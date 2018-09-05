@@ -4,7 +4,7 @@
         <el-card class="box-card"
                  v-for="article in page.list"
                  :key="article.id">
-            <div slot="header">
+            <div slot="header" class="article-title">
                 <router-link :to="{path: 'article',query:{id:article.id}}">
                     {{article.title}}
                 </router-link>
@@ -110,13 +110,12 @@
         text-align: left;
     }
 
-    .home-main a {
-        color: #909399;
+    .home-main .article-title a {
         text-decoration: none;
         line-height: 30px;
     }
 
-    .box-card /deep/ .el-card__header {
+    /deep/ .box-card .el-card__header {
         padding: 0 10px;
     }
 

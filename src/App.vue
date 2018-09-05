@@ -58,14 +58,10 @@
 
     //loading
     .el-loading-spinner {
-        position: absolute;
         top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
     }
     .loading {
-        margin-top: 10%;
+        position: fixed;
         display: inline-block;
         height: 240px;
         width: 240px;
