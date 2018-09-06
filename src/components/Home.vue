@@ -47,22 +47,20 @@
             return {
                 page: {
                 },
+                searchInfo: {},
                 container: undefined
             }
         },
         created() {
             let _this = this
-            _this.bus.$on('search', function (keywords) {
-                _this.page.title = keywords
-                _this.loadArticleList()
-            })
         },
         mounted() {
             let _this = this
-            this.page.category = this.$route.query.category
-            this.page.tagId = this.$route.query.tagId
-            this.loadArticleList()
-            this.$nextTick(function () {
+            _this.searchInfo.category = _this.$route.query.category
+            _this.searchInfo.tagId = _this.$route.query.tagId
+            _this.searchInfo.title = _this.$route.query.keywords
+            _this.loadArticleList()
+            _this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
                     if (!_this.container) {
                         _this.container = e.target
@@ -72,9 +70,10 @@
         },
         watch: {
             '$route' (to, from) {
-                this.page.pageNum = 1
-                this.page.category = this.$route.query.category
-                this.page.tagId = this.$route.query.tagId
+                this.searchInfo.pageNum = 1
+                this.searchInfo.category = this.$route.query.category
+                this.searchInfo.tagId = this.$route.query.tagId
+                this.searchInfo.title = this.$route.query.keywords
                 this.loadArticleList()
             }
 
@@ -82,7 +81,7 @@
         methods: {
             loadArticleList() {
                 let _this = this
-                Blog.getArticles(_this.page)
+                Blog.getArticles(_this.searchInfo)
                     .then(function (response) {
                         _this.page = response
                         Blog.toTop(_this.container)
@@ -90,11 +89,11 @@
                 })
             },
             pageNumChangeHandler(pageNum) {
-                this.page.pageNum = pageNum
+                this.searchInfo.pageNum = pageNum
                 this.loadArticleList()
             },
             pageSizeChangeHandler(pageSize) {
-                this.page.pageSize = pageSize
+                this.searchInfo.pageSize = pageSize
                 this.loadArticleList()
             }
 

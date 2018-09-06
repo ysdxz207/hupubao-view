@@ -78,7 +78,7 @@
                 this.$router.push({name: 'home', query: {tagId: tag.id}})
             },
             search() {
-                this.bus.$emit('search', this.keywords)
+                this.$router.push({name: 'home', query: {keywords: this.keywords}})
             },
             loadCategory(loadMore) {
                 let _this = this
