@@ -73,7 +73,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "//comment.moe/dest/static/css/plus.css";
     .article-container {
         text-align: left;
     }
