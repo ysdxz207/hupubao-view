@@ -17,9 +17,6 @@
                     class="article-context" v-html="compiledContext">
             </el-card>
 
-            <!-- 在需要展示评论框处插入 -->
-            <div class="cm-article" :data-key="article.id"></div>
-
         </div>
     </transition>
 </template>
@@ -27,7 +24,6 @@
 
 <script>
     import marked from 'marked'
-    import 萌评 from '~/static/comment'
     import Blog from '~/api/blog'
 
     export default {
@@ -50,7 +46,6 @@
         mounted() {
             let _this = this
             this.loadArticle()
-            萌评.运转()
             this.$nextTick(function () {
                 window.addEventListener('scroll', (e) => {
                     if (!_this.container) {
