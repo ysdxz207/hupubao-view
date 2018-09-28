@@ -11,6 +11,7 @@
             <el-menu-item index="home">首页</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">工具</template>
+                <el-menu-item index="https://github.com/ysdxz207/clipnote">笔记+粘贴板+快速启动</el-menu-item>
                 <el-menu-item index="https://github.com/ysdxz207/quickrun">桌面快速启动程序</el-menu-item>
                 <el-menu-item index="https://github.com/ysdxz207/medis">redis管理工具</el-menu-item>
                 <el-menu-item index="https://github.com/ysdxz207/hupubao-common">简单封装java公共模块</el-menu-item>
