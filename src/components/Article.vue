@@ -2,7 +2,7 @@
     <transition enter-active-class="animated zoomInUp">
         <div class="article-container">
             <h3>{{article.title}}</h3>
-            <h5>{{article.createTime}}</h5>
+            <h7>{{article.createTime}}</h7>
             <h5>分类：
                 <router-link :to="{ name: 'home', query: { category: article.category }}">{{article.category}}</router-link>
             </h5>
