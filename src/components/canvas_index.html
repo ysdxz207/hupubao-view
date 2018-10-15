@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title></title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+<canvas id="canvas_background" style="display:block"></canvas>
+
+<script>
+    let width, height
+    window.onload = function () {
+        let canvas = document.querySelector("#canvas_background")
+        let context = canvas.getContext("2d")
+
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+
+        width = canvas.width
+        height = canvas.height
+
+        // let img = new Image()
+        // img.src = "../assets/bg/bg_home.jpg"
+        // img.onload = function () {
+        //     let patternBackground = context.createPattern(img, "repeat")
+        //     context.fillStyle = patternBackground
+        //     context.fillRect(0, 0, canvas.width, canvas.height)
+        // }
+
+        context.fillRect(0, 0, canvas.width, canvas.height)
+
+        drawPrairie(context)
+        drawSky(context)
+        for (let i = 0; i < 5; i++) {
+            let x0 = 500 * Math.random() + 50
+            let y0 = 200 * Math.random() + 50
+            let c0 = 100 * Math.random() + 50
+            drawCloud(context, x0, y0, c0)
+        }
+    }
+
+    function random(min, max) {
+        if (arguments.length < 2) {
+            max = min
+            min = 0
+        }
+
+        if (min > max) {
+            let hold = max
+            max = min
+            min = hold
+        }
+
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+
+    function drawSky(context) {
+        context.save()
+
+        context.beginPath()
+        context.moveTo(0, 420)
+        context.bezierCurveTo(250, 300, 350, 550, width, width / 2)
+        context.lineTo(width, 0)
+        context.lineTo(0, 0)
+        context.closePath()
+
+        let lineStyle = context.createRadialGradient(width / 2, 0, 50, width / 2, 0, 200)
+        lineStyle.addColorStop(0, "#42A9AA")
+        lineStyle.addColorStop(1, "#2491AA")
+
+        context.fillStyle = lineStyle
+
+        context.fill()
+
+        context.restore()
+    }
+
+    function drawPrairie(context) {
+        context.save()
+
+        context.beginPath()
+        context.moveTo(0, 420)
+        context.bezierCurveTo(250, 300, 350, 550, width, width / 2)
+        context.lineTo(width, height)
+        context.lineTo(0, height)
+        context.closePath()
+
+        let lineStyle = context.createLinearGradient(0, height, height, 0)
+        lineStyle.addColorStop(0, "#00AA58")
+        lineStyle.addColorStop(0.3, "#63AA7B")
+        lineStyle.addColorStop(1, "#04AA00")
+
+        context.fillStyle = lineStyle
+        context.fill()
+
+        context.restore()
+    }
+
+
+    /*渲染单个云朵
+     context:  canvas.getContext("2d")对象
+     cx: 云朵X轴位置
+     cy: 云朵Y轴位置
+     cw: 云朵宽度
+     */
+    function drawCloud(context, cx, cy, cw) {
+        //云朵移动范围即画布宽度
+        let maxWidth = width
+        //如果超过边界从头开始绘制
+        cx = cx % maxWidth
+        //云朵高度为宽度的60%
+        let ch = cw * 0.6
+        //开始绘制云朵
+
+        context.beginPath()
+        context.fillStyle = "white"
+        //创建渐变
+        let grd = context.createLinearGradient(0, 0, 0, cy)
+        grd.addColorStop(0, 'rgba(255,255,255,0.8)')
+        grd.addColorStop(1, 'rgba(255,255,255,0.4)')
+        context.fillStyle = grd
+
+        //在不同位置创建5个圆拼接成云朵现状
+        context.arc(cx, cy, cw * 0.19, 0, 360, false)
+        context.arc(cx + cw * 0.08, cy - ch * 0.3, cw * 0.11, 0, 360, false)
+        context.arc(cx + cw * 0.3, cy - ch * 0.25, cw * 0.25, 0, 360, false)
+        context.arc(cx + cw * 0.6, cy, cw * 0.21, 0, 360, false)
+        context.arc(cx + cw * 0.3, cy - ch * 0.1, cw * 0.28, 0, 360, false)
+        context.closePath()
+
+        context.fill()
+    }
+</script>
+</body>
+</html>
