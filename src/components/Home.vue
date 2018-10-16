@@ -1,28 +1,28 @@
 <template>
     <div class="home-main">
         <transition-group enter-active-class="animated bounceInLeft">
-        <el-card class="box-card"
-                 v-for="article in page.list"
-                 :key="article.id">
-            <div slot="header" class="article-title">
-                <router-link :to="{path: 'article',query:{id:article.id}}">
-                    {{article.title}}
-                </router-link>
-                <div class="article-create-time">
-                    <span>时间：{{article.createTime}}</span>
-                    <span v-if="article.category">
+            <el-card class="box-card"
+                     v-for="article in page.list"
+                     :key="article.id">
+                <div slot="header" class="article-title">
+                    <router-link :to="{path: 'article',query:{id:article.id}}">
+                        {{article.title}}
+                    </router-link>
+                    <div class="article-create-time">
+                        <span>时间：{{article.createTime}}</span>
+                        <span v-if="article.category">
                         <span class="split">|</span>
                         分类：
                         <router-link :to="{ name: 'home', query: { category: article.category }}">
                         {{article.category}}
                         </router-link>
                     </span>
+                    </div>
                 </div>
-            </div>
-            <div>
-                {{article.intro}}
-            </div>
-        </el-card>
+                <div>
+                    {{article.intro}}
+                </div>
+            </el-card>
         </transition-group>
         <el-pagination
                 v-if="page.list"
@@ -35,6 +35,7 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="page.total">
         </el-pagination>
+        <canvas id="canvas_background"></canvas>
     </div>
 </template>
 
@@ -45,8 +46,7 @@
         components: {},
         data() {
             return {
-                page: {
-                },
+                page: {},
                 searchInfo: {},
                 container: undefined
             }
@@ -56,6 +56,7 @@
         },
         mounted() {
             let _this = this
+            _this.setBackgroundCanvas()
             _this.searchInfo.category = _this.$route.query.category
             _this.searchInfo.tagId = _this.$route.query.tagId
             _this.searchInfo.title = _this.$route.query.keywords
@@ -69,7 +70,7 @@
             })
         },
         watch: {
-            '$route' (to, from) {
+            '$route'(to, from) {
                 this.searchInfo.pageNum = 1
                 this.searchInfo.category = this.$route.query.category
                 this.searchInfo.tagId = this.$route.query.tagId
@@ -95,6 +96,212 @@
             pageSizeChangeHandler(pageSize) {
                 this.searchInfo.pageSize = pageSize
                 this.loadArticleList()
+            },
+            setBackgroundCanvas() {
+                let canvas = document.querySelector("#canvas_background")
+                let ctx = canvas.getContext("2d")
+
+                canvas.width = document.documentElement.clientWidth
+                canvas.height = document.documentElement.clientHeight
+
+                let balls = []
+
+                // let img = new Image()
+                // img.src = "images/海滩.jpg"
+
+                // img.onload = function () {
+                    for (let i = 0; i < 20; i++) {
+                        let placeOk = false
+                        let ball
+                        while (!placeOk) {
+                            ball = new Ball()
+
+                            // 排除两个球在生成时发生重叠而产生bug
+                            if (canStart(ball)) {
+                                placeOk = true
+                            }
+                        }
+                        balls.push(ball)
+                    }
+
+                    setInterval(function () {
+                        drawScreen()
+                    }, 15)
+                // }
+
+                // 是否正确生成了小球的位置
+                function canStart(ball) {
+                    let start = true
+                    for (let i = 0; i < balls.length; i++) {
+                        if (hitTestCircle(ball, balls[i])) {
+                            start = false
+                        }
+                    }
+                    return start
+                }
+
+
+                // 绘制屏幕主函数
+                function drawScreen() {
+                    // 数据更新
+                    upDate()
+                    testWall()
+                    collide()
+                    // 绘制
+                    render()
+                }
+
+                // 不考虑碰撞,球的每一帧的变化
+                function upDate() {
+                    for (let i = 0; i < balls.length; i++) {
+                        let ball = balls[i]
+                        ball.x = ball.x + ball.vx
+                        ball.y = ball.y + ball.vy
+                    }
+                }
+
+                // 球与墙的碰撞检测 和 速度变化
+                function testWall() {
+                    balls.forEach(function (element) {
+                        let ball = element
+                        if (ball.x <= ball.r) {
+                            ball.x = ball.r
+                            ball.vx = -ball.vx
+                        }
+                        if (ball.x >= canvas.width - ball.r) {
+                            ball.x = canvas.width - ball.r
+                            ball.vx = -ball.vx
+                        }
+                        if (ball.y <= ball.r) {
+                            ball.y = ball.r
+                            ball.vy = -ball.vy
+                        }
+                        if (ball.y >= canvas.height - ball.r) {
+                            ball.y = canvas.height - ball.r
+                            ball.vy = -ball.vy
+                        }
+                    })
+                }
+
+                // 球与球的 碰撞检测 与 速度变化
+                // 两个球是否碰撞
+                function hitTestCircle(ball1, ball2) {
+                    let hit = false
+                    let dis = Math.sqrt((ball1.x - ball2.x) * (ball1.x - ball2.x) + (ball1.y - ball2.y) * (ball1.y - ball2.y))
+                    if (dis < ball1.r + ball2.r) {
+                        hit = true
+                    }
+                    return hit
+                }
+
+                // 遍历所有球的碰撞
+                function collide() {
+                    let ball
+                    let testball
+                    for (let i = 0; i < balls.length; i++) {
+                        ball = balls[i]
+                        for (let j = i + 1; j < balls.length; j++) {
+                            testball = balls[j]
+                            if (hitTestCircle(ball, testball)) {
+                                collideBalls(ball, testball)
+                            }
+                        }
+                    }
+                }
+
+                // 碰撞之后的速度变化
+                function collideBalls(ball1, ball2) {
+
+                    // 获取两个小球球心的水平距离和垂直距离
+                    let dx = ball1.x - ball2.x
+                    let dy = ball1.y - ball2.y
+
+                    // 计算球心连线与水平方向的夹角
+                    let collisionAngle = Math.atan2(dy, dx)
+
+                    // 计算两个小球的速率
+                    let speed1 = Math.sqrt(ball1.vx * ball1.vx + ball1.vy * ball1.vy)
+                    let speed2 = Math.sqrt(ball2.vx * ball2.vx + ball2.vy * ball2.vy)
+
+                    // 计算两个小球在碰撞之前的运动方向,也是与水平方向的夹角
+                    let direction1 = Math.atan2(ball1.vy, ball1.vx)
+                    let direction2 = Math.atan2(ball2.vy, ball2.vx)
+
+                    // vx_1 vx_2 是小球在平行于球心连线方向的分速度
+                    // vy_2 vy_2 是小球在垂直于球心连线方向的分速度
+                    // 碰撞的速度变化,只用考虑平行方向的分速度,而不用考虑垂直方向的分速度
+                    let vx_1 = speed1 * Math.cos(direction1 - collisionAngle)
+                    let vy_1 = speed1 * Math.sin(direction1 - collisionAngle)
+                    let vx_2 = speed2 * Math.cos(direction2 - collisionAngle)
+                    let vy_2 = speed2 * Math.sin(direction2 - collisionAngle)
+
+                    // 动量定理和能量守恒,计算平行于球心连线方向的分速度 在碰撞之后的速度变化
+                    let final_vx_1 = ((ball1.mass - ball2.mass) * vx_1 + (ball2.mass + ball2.mass) * vx_2) / (ball1.mass + ball2.mass)
+                    let final_vx_2 = ((ball1.mass + ball1.mass) * vx_1 + (ball2.mass - ball1.mass) * vx_2) / (ball1.mass + ball2.mass)
+                    //在垂直于球心连线方向的分速度 保持不变
+                    let final_vy_1 = vy_1
+                    let final_vy_2 = vy_2
+
+                    // 最后,计算好了分速度的变化后,再把速度回归到canvas的 x方向 和 y方向
+                    ball1.vx = Math.cos(collisionAngle) * final_vx_1 + Math.cos(collisionAngle + Math.PI / 2) * final_vy_1
+                    ball1.vy = Math.sin(collisionAngle) * final_vx_1 + Math.sin(collisionAngle + Math.PI / 2) * final_vy_1
+                    ball2.vx = Math.cos(collisionAngle) * final_vx_2 + Math.cos(collisionAngle + Math.PI / 2) * final_vy_2
+                    ball2.vy = Math.sin(collisionAngle) * final_vx_2 + Math.sin(collisionAngle + Math.PI / 2) * final_vy_2
+
+
+                    ball1.x += ball1.vx
+                    ball1.y += ball1.vy
+                    ball2.x += ball2.vx
+                    ball2.y += ball2.vy
+                }
+
+
+                // 绘制函数
+                function render() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+                    // 画背景
+                    ctx.save()
+                    ctx.beginPath()
+                    // ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+                    ctx.restore()
+
+                    // 绘制球
+                    let ball
+                    for (let i = 0; i < balls.length; i++) {
+                        ball = balls[i]
+                        ball.draw()
+                    }
+                }
+
+                // 构造函数
+                function Ball() {
+                    let R = rand(0, 255)
+                    let G = rand(0, 255)
+                    let B = rand(0, 255)
+
+                    this.x = rand(30, canvas.width - 30)
+                    this.y = rand(30, canvas.height - 30)
+                    this.r = rand(20, 80)
+                    this.color = "rgba(" + R + "," + G + "," + B + ",0.7)"
+                    this.vx = (Math.random() * 2 - 1) * 5
+                    this.vy = (Math.random() * 2 - 1) * 5
+                    this.mass = this.r * 8
+                }
+
+                Ball.prototype.draw = function () {
+                    ctx.save()
+                    ctx.beginPath()
+                    ctx.fillStyle = this.color
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false)
+                    ctx.fill()
+                    ctx.restore()
+                }
+
+                // 取随机整数
+                function rand(min, max) {
+                    return Math.floor((max - min) * Math.random() + min)
+                }
             }
 
         }
@@ -107,10 +314,11 @@
         margin-top: 20px;
     }
 
-    .home-main{
+    .home-main {
         height: 100%;
         padding-bottom: 20px;
     }
+
     .box-card {
         margin-bottom: 10px;
         text-align: left;
@@ -136,4 +344,12 @@
         margin-right: 4px;
     }
 
+    #canvas_background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        pointer-events: none;
+        opacity: 0.22;
+    }
 </style>
