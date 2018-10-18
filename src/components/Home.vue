@@ -56,7 +56,7 @@
         },
         mounted() {
             let _this = this
-            _this.setBackgroundCanvas()
+            // _this.setBackgroundCanvas()
             _this.searchInfo.category = _this.$route.query.category
             _this.searchInfo.tagId = _this.$route.query.tagId
             _this.searchInfo.title = _this.$route.query.keywords
@@ -345,11 +345,13 @@
     }
 
     #canvas_background {
+        width: 100%;
+        height: 100%;
         position: absolute;
         left: 0;
         top: 0;
         z-index: 99;
         pointer-events: none;
-        opacity: 0.22;
+        opacity: 0.12;
     }
 </style>

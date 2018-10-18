@@ -19,7 +19,6 @@
                 <a href="https://github.com/ysdxz207/hupubao-view" target="_blank">Version&nbsp;2.0</a>
             </el-footer>
         </el-main>
-        <canvas id="canvas_background" style="display:block"></canvas>
     </el-container>
 
 </template>
@@ -104,11 +103,6 @@
         color: #545c64;
         font-size: 14px;
         margin-top: 80px;
-    }
-
-    #canvas_background {
-        position: absolute;
-        z-index: 0;
     }
 
 </style>
