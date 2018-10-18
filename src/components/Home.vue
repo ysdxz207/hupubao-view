@@ -35,7 +35,6 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="page.total">
         </el-pagination>
-        <canvas id="canvas_background"></canvas>
     </div>
 </template>
 
@@ -56,7 +55,6 @@
         },
         mounted() {
             let _this = this
-            _this.setBackgroundCanvas()
             _this.searchInfo.category = _this.$route.query.category
             _this.searchInfo.tagId = _this.$route.query.tagId
             _this.searchInfo.title = _this.$route.query.keywords
@@ -96,23 +94,6 @@
             pageSizeChangeHandler(pageSize) {
                 this.searchInfo.pageSize = pageSize
                 this.loadArticleList()
-            },
-            setBackgroundCanvas() {
-                let canvas = document.querySelector("#canvas_background")
-                let ctx = canvas.getContext("2d")
-
-                canvas.width = document.documentElement.clientWidth
-                canvas.height = document.documentElement.clientHeight
-
-                let img = new Image()
-                img.src = require('../assets/images/leaves/2.png')
-                img.onload = function () {
-                    ctx.rect(0, 0, canvas.width, canvas.height)
-
-                    ctx.fillStyle = ctx.createPattern(img, "repeat")
-                    ctx.fill()
-                }
-
             }
 
         }
@@ -155,14 +136,5 @@
         margin-right: 4px;
     }
 
-    #canvas_background {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 99;
-        pointer-events: none;
-        opacity: 0.08;
-    }
+
 </style>

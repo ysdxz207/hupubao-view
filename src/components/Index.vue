@@ -19,6 +19,7 @@
                 <a href="https://github.com/ysdxz207/hupubao-view" target="_blank">Version&nbsp;2.0</a>
             </el-footer>
         </el-main>
+        <canvas id="canvas_background"></canvas>
     </el-container>
 
 </template>
@@ -48,25 +49,15 @@
                 canvas.width = document.documentElement.clientWidth
                 canvas.height = document.documentElement.clientHeight
 
-                ctx.moveTo(80, 80)
-                ctx.lineTo(240, 80)
-                ctx.stroke()
+                let img = new Image()
+                img.src = require('../assets/images/leaves/2.png')
+                img.onload = function () {
+                    ctx.rect(0, 0, canvas.width, canvas.height)
 
-
-                function random(min, max) {
-                    if (arguments.length < 2) {
-                        max = min
-                        min = 0
-                    }
-
-                    if (min > max) {
-                        let hold = max
-                        max = min
-                        min = hold
-                    }
-
-                    return Math.floor(Math.random() * (max - min + 1)) + min
+                    ctx.fillStyle = ctx.createPattern(img, "repeat")
+                    ctx.fill()
                 }
+
             }
         },
         created() {
@@ -105,4 +96,14 @@
         margin-top: 80px;
     }
 
+    #canvas_background {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        pointer-events: none;
+        opacity: 0.08;
+    }
 </style>

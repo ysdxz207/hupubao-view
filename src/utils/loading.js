@@ -13,7 +13,7 @@ Obj.show = function () {
         lock: true,
         text: '',
         spinner: 'loading',
-        background: '#fbfbfb'
+        background: 'rgba(255,255,255,0)'
     });
 }
 
