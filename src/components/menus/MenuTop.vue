@@ -13,8 +13,9 @@
                 <template slot="title">工具</template>
                 <el-menu-item index="https://github.com/ysdxz207/clipnote">笔记+粘贴板+快速启动</el-menu-item>
                 <el-menu-item index="https://github.com/ysdxz207/quickrun">桌面快速启动程序</el-menu-item>
-                <el-menu-item index="https://github.com/ysdxz207/medis">redis管理工具</el-menu-item>
+                <el-menu-item index="https://github.com/ysdxz207/medis">web版redis管理工具</el-menu-item>
                 <el-menu-item index="https://github.com/ysdxz207/hupubao-common">简单封装java公共模块</el-menu-item>
+                <el-menu-item index="https://github.com/ysdxz207/jmedis">跨平台桌面版redis管理工具(推荐)</el-menu-item>
             </el-submenu>
             <span><i class="el-icon-github"></i></span>
         </el-menu>
